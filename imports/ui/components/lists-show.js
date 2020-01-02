@@ -12,6 +12,8 @@ import { TAPi18n } from 'meteor/tap:i18n';
 
 import './lists-show.html';
 
+import { MyIndex, Lists } from '../../api/lists/lists';
+
 // Component used in the template
 import './todos-item.js';
 
@@ -185,5 +187,12 @@ Template.Lists_show.events({
     }, displayError);
 
     $input.val('');
+  },
+  'keyup #search'(event) {
+    console.log('search for ', event.target.value);
+    
+    const cursor = MyIndex.search(event.target.value);
+    console.log('count',cursor.count());
+    console.log('results', cursor.fetch());
   },
 });

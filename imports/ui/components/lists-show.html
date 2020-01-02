@@ -80,6 +80,8 @@
     </nav>
 
     <div class="content-scrollable list-items">
+        <input id="search" type="text" placeholder="search..." />
+
       {{#if todosReady}}
         {{#each todo in todos}}
           {{> Todos_item (todoArgs todo)}}

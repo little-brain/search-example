@@ -81,17 +81,18 @@ Lists.helpers({
 import { Index, MongoDBEngine } from 'meteor/easy:search';
 
 export const MyIndex = new Index({
-    'collection': Lists,
-    'fields': ['name'],
-    'engine': new MongoDBEngine(),
-    selector(searchDefinition, options, aggregation) {
-        // retrieve the default selector
-        const selector = this.defaultConfiguration()
-            .selector(searchObject, options, aggregation);
+  'collection': Lists,
+  'fields': ['name'],
+  'engine': new MongoDBEngine({
+    selector: function (searchObject, options, aggregation) {
+      let selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
-        // options.search.userId contains the userId of the logged in user
-        selector.userId = options.search.userId;
-        console.log('selector');
-        return selector;
-    },
+      selector.userId = options.search.userId;
+      console.log('index selector', JSON.stringify(selector));
+      return selector;
+    }
+  }),
+  permission: () => {
+    return true;
+  }
 });
